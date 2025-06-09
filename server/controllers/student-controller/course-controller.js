@@ -113,5 +113,5 @@ const checkCoursePurchaseInfo = async (req, res) => {
 module.exports = {
   getAllStudentViewCourses,
   getStudentViewCourseDetails,
-  checkCoursePurchaseInfo,
+  // checkCoursePurchaseInfo,
 };

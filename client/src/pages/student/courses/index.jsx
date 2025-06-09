@@ -88,19 +88,19 @@ function StudentViewCoursesPage() {
   }
 
   async function handleCourseNavigate(getCurrentCourseId) {
-    const response = await checkCoursePurchaseInfoService(
-      getCurrentCourseId,
-      auth?.user?._id
-    );
+    // const response = await checkCoursePurchaseInfoService(
+    //   getCurrentCourseId,
+    //   auth?.user?._id
+    // );
 
-    if (response?.success) {
-      if (response?.data) {
-        navigate(`/course-progress/${getCurrentCourseId}`);
-      } else {
+    // if (response?.success) {
+    //   if (response?.data) {
+        // navigate(`/course-progress/${getCurrentCourseId}`);
+      // } else {
         navigate(`/course/details/${getCurrentCourseId}`);
-      }
-    }
-  }
+  //     }
+  //   }
+   }
 
   useEffect(() => {
     const buildQueryStringForFilters = createSearchParamsHelper(filters);
@@ -185,7 +185,7 @@ function StudentViewCoursesPage() {
                 </DropdownMenuRadioGroup>
               </DropdownMenuContent>
             </DropdownMenu>
-            <span className="text-sm text-black font-bold">
+            <span className="text-sm text-white font-bold">
               {studentViewCoursesList.length} Results
             </span>
           </div>
@@ -222,7 +222,7 @@ function StudentViewCoursesPage() {
                         } - ${courseItem?.level.toUpperCase()} Level`}
                       </p>
                       <p className="font-bold text-lg">
-                        ${courseItem?.pricing}
+                      ₹{courseItem?.pricing}
                       </p>
                     </div>
                   </CardContent>

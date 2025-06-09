@@ -21,6 +21,7 @@ const CourseSchema = new mongoose.Schema({
   welcomeMessage: String,
   pricing: Number,
   objectives: String,
+  
   students: [
     {
       studentId: String,

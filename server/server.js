@@ -9,18 +9,20 @@ const studentViewCourseRoutes = require("./routes/student-routes/course-routes")
 const studentViewOrderRoutes = require("./routes/student-routes/order-routes");
 const studentCoursesRoutes = require("./routes/student-routes/student-courses-routes");
 const studentCourseProgressRoutes = require("./routes/student-routes/course-progress-routes");
+const { GoogleGenerativeAI, HarmCategory, HarmBlockThreshold } = require('@google/generative-ai');
+
 
 const app = express();
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 5001;
 const MONGO_URI = process.env.MONGO_URI;
-
 app.use(
   cors({
-    origin: process.env.CLIENT_URL,
+    origin: "http://localhost:5173",
     methods: ["GET", "POST", "DELETE", "PUT"],
     allowedHeaders: ["Content-Type", "Authorization"],
   })
 );
+
 
 app.use(express.json());
 
@@ -45,6 +47,73 @@ app.use((err, req, res, next) => {
     success: false,
     message: "Something went wrong",
   });
+});
+
+
+
+// Chatbot Route (added)
+const MODEL_NAME = "gemini-pro";
+const API_KEY = process.env.API_KEY;
+
+async function runChat(userInput) {
+  const genAI = new GoogleGenerativeAI(API_KEY);
+  const model = genAI.getGenerativeModel({ model: "gemini-1.5-pro-latest" });
+
+  const generationConfig = {
+    temperature: 0.7, // Lower temperature for more focused responses
+    topK: 1,
+    topP: 0.9,
+    maxOutputTokens: 1500, // Increase token limit for detailed solutions
+  };
+
+  const safetySettings = [
+    {
+      category: HarmCategory.HARM_CATEGORY_HARASSMENT,
+      threshold: HarmBlockThreshold.BLOCK_MEDIUM_AND_ABOVE,
+    },
+  ];
+
+  const chat = model.startChat({
+    generationConfig,
+    safetySettings,
+    history: [
+      {
+        role: "user",
+        parts: [
+          {
+            text: `I am looking for help with programming problems. Generate clear and detailed solutions to the questions I ask, providing step-by-step explanations, sample code snippets, and references to appropriate libraries or tools. The answers should be designed to educate and resolve the issue. Please ensure the solutions are accurate and follow best practices for coding.`,
+          },
+        ],
+      },
+      {
+        role: "model",
+        parts: [
+          {
+            text: `Hello! I can assist you with any programming problems or questions you have. Please describe your issue or share the code snippet you're working with, and I will provide a detailed solution or explanation.remove stars or asterisk`,
+          },
+          
+        ],
+      },
+    ],
+  });
+
+  const result = await chat.sendMessage(userInput);
+  return result.response.text();
+}
+
+app.post('/chat', async (req, res) => {
+  try {
+    const userInput = req.body?.userInput;
+    if (!userInput) {
+      return res.status(400).json({ error: 'Invalid request body' });
+    }
+
+    const response = await runChat(userInput);
+    res.json({ response });
+  } catch (error) {
+    console.error('Error in chat endpoint:', error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
 });
 
 app.listen(PORT, () => {

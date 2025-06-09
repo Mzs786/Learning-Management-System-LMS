@@ -7,7 +7,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { DollarSign, Users } from "lucide-react";
+import {IndianRupee , Users } from "lucide-react";
 
 function InstructorDashboard({ listOfCourses }) {
   function calculateTotalStudentsAndProfit() {
@@ -50,7 +50,7 @@ function InstructorDashboard({ listOfCourses }) {
       value: calculateTotalStudentsAndProfit().totalStudents,
     },
     {
-      icon: DollarSign,
+      icon: IndianRupee ,
       label: "Total Revenue",
       value: calculateTotalStudentsAndProfit().totalProfit,
     },
