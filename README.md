@@ -9,7 +9,6 @@ A full-featured Learning Management System (LMS) built using the **MERN Stack** 
 - 👤 User Authentication (Students & Admins)
 - 🎓 Course Creation, Upload & Purchase
 - 📹 Video Content Upload & Streaming
-- 📝 Quiz and Assignments (optional)
 - 💬 AI Chatbot Assistance
 - 📊 Student Progress Tracking
 - 📁 File Upload Support
