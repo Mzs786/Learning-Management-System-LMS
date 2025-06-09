@@ -29,3 +29,9 @@ A full-featured Learning Management System (LMS) built using the **MERN Stack** 
 - Node.js
 - Express.js
 - MongoDB
+
+### 🔐 Sample Login Credentials
+
+- **Email:** `Zubair@gmail.com`  
+- **Password:** `7867`
+
